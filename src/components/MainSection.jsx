@@ -2,14 +2,12 @@ import React,  { useState, useRef, useEffect } from 'react';
 import Sketch from "react-p5";
 import doLinesIntersect from "./functions/doLinesIntersect.js";
 import './css/SectionMain.css'
+import {generateRandomPolygon,lines} from './functions/generateRandomPolygon.js';
+
 
 const degreesToRadians = (deg) => deg * Math.PI / 180;
 
-const lines = [
-  {x1:0,y1:0,x2:300,y2:300},
-  {x1:0,y1:0,x2:350,y2:350},
-  {x1:100,y1:300,x2:350,y2:550},
-];
+
 
 
 const getRobotRotationAngle = (robotElement) => {
@@ -70,11 +68,9 @@ const setup = (p5, canvasParentRef) => {
   sectionWidth = section.offsetWidth;
   sectionHeight = section.offsetHeight;
   p5.createCanvas(sectionWidth, sectionHeight).parent(canvasParentRef);
-  
-  
-  
-
-  
+  for (let i = 0; i < 10; i++) {
+    generateRandomPolygon(sectionWidth,sectionHeight)
+  }
 };
 
 function drawSensorLine(sensor, p5, measure, deg, robotDeg = 0, drawActive) {
@@ -90,8 +86,8 @@ function drawSensorLine(sensor, p5, measure, deg, robotDeg = 0, drawActive) {
 
 
   // Calcular la distancia entre la posición actual y anterior del sensor
-  const prevPosition = sensorPositions[parseInt(sensor.slice(-1)) - 1];
-  const distance = Math.sqrt((prevPosition.x - x) ** 2 + (prevPosition.y - y) ** 2);
+  //const prevPosition = sensorPositions[parseInt(sensor.slice(-1)) - 1];
+  //const distance = Math.sqrt((prevPosition.x - x) ** 2 + (prevPosition.y - y) ** 2);
   
   
   // Calcular punto de interseccion entre medicion del sensor y pared simulada
@@ -99,10 +95,10 @@ function drawSensorLine(sensor, p5, measure, deg, robotDeg = 0, drawActive) {
   let intersection = null;
   for (let i = 0; i < lines.length; i++) {
     const currentIntersection = doLinesIntersect(
-      positionSensorX,
-      positionSensorY,
-      x,
-      y,
+      Math.abs(positionSensorX),
+      Math.abs(positionSensorY),
+      Math.abs(x),
+      Math.abs(y),
       lines[i].x1,
       lines[i].y1,
       lines[i].x2,
@@ -113,7 +109,7 @@ function drawSensorLine(sensor, p5, measure, deg, robotDeg = 0, drawActive) {
       break;
     }
   }
-  if (distance < 60 && intersection) {
+  if (intersection) {
     p5.stroke(255);
     p5.line(intersection[0], intersection[1], intersection[0], intersection[1]);
   }
@@ -137,6 +133,7 @@ function drawSensorLine(sensor, p5, measure, deg, robotDeg = 0, drawActive) {
       intersection ? {hrY: Math.sqrt((intersection[0]-positionSensorX)**2+(intersection[1]-positionSensorY)**2)} : {hrY: 140}, // segundo objeto actualizado
       prevState[2], // tercer objeto sin cambios
     ]);
+    console.log(intersection);
   } if (sensor === "sensor3") {
     setHrHeight(prevState => [
       prevState[0], // primer objeto sin cambios
@@ -144,12 +141,13 @@ function drawSensorLine(sensor, p5, measure, deg, robotDeg = 0, drawActive) {
       intersection ? {hrY:  Math.sqrt((intersection[0]-positionSensorX)**2+(intersection[1]-positionSensorY)**2)} : {hrY: 140}, // tercer objeto actualizado
     ]);
   }
-  console.log(hrHeight[0]);
+  // console.log(hrHeight[1]);
   // setHrHeight(prevPositions => [
   //   ...prevPositions.slice(0, parseInt(sensor.slice(-1)) - 1),
   //   {hry:intersection[1]},
   //   ...prevPositions.slice(parseInt(sensor.slice(-1)))
   // ]);
+  
 }
 
 
