@@ -1,0 +1,127 @@
+:root{
+    --border-directions:15px;
+    
+}
+
+#control{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.grid-derections{
+    width: 17rem;
+    height: 95%;
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    grid-template-rows:repeat(3,1fr);
+    grid-template-areas: 
+    "b1 b2 b3"
+    "b4 b9 b5"
+    "b6 b7 b8";
+}
+.up-left {
+    grid-area: b1;
+    border-radius: var(--border-directions) 0 0 0;
+}
+.up-left div{
+    transform: rotate(-45deg);
+}
+.up{
+    grid-area: b2;
+}
+.up-right{
+    grid-area: b3;
+    border-radius: 0 var(--border-directions) 0 0;
+}
+.up-right div{
+    transform: rotate(45deg);
+}
+.left{
+    grid-area: b4;
+}
+.left div{
+    transform: rotate(270deg);
+}
+.right{    
+    grid-area: b5;
+}
+.right div{
+    transform: rotate(90deg);
+}
+.bottom-left{    
+    grid-area: b6;
+    border-radius: 0 0 0 var(--border-directions);
+}
+.bottom-left div{
+    transform: rotate(-135deg);
+}
+.bottom{
+    grid-area: b7;
+}
+.bottom div{
+    transform: rotate(180deg);
+}
+.bottom-right{
+    grid-area: b8;
+    border-radius: 0 0 var(--border-directions) 0;
+
+}
+.bottom-right div{
+    transform: rotate(135deg);
+}
+.spin{
+    grid-area: b9;
+    border-radius: var(--border-directions);
+}
+
+.push{
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    height: 100%;
+    border:1px solid var(--bg-color-4d);
+    background-color: var(--bg-color-3d);
+    cursor: pointer;
+}
+
+.push div:not(.no){
+    width: 0px;
+    height: 10%;
+    border-bottom: 1.5rem solid var(--bg-color-4d);
+    border-left: 1.2rem solid transparent;
+    border-right: 1.2rem solid transparent;
+    z-index: 1000;
+}
+
+.push div.no{
+    width: auto;
+    height: auto;
+    text-align: center;
+}
+i::before{
+    font-size: 1.2rem;
+    color:var(--bg-color-4d)
+}
+
+
+/* Input Control */
+
+.input-control{
+    width:50%;
+    height: 100%;
+}
+.input-control .input{
+    height: 22%;
+    margin-bottom:2px ;
+}
+.input-control p{
+    display: inline-block;
+    width: 40%;
+    text-align: end;
+}
+.input-control input {
+    width: 40%;
+    border-radius: 10px;
+    font-size: 28px;
+}

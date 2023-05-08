@@ -1,0 +1,90 @@
+#main{
+  position: relative;
+}
+#robot {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: gray;
+    transform: rotate(0);
+    transition:1s ease ;
+}
+
+.sensor {
+    position: absolute;
+    width: 25%;
+    height: 25%;
+    padding-top: 15%;
+    border-radius: 50%;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+  }
+  
+  .r1 {
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(180deg);
+    
+  }
+  
+  .r2 {
+    top: 70%;
+    left: 20%;
+    transform: translate(-50%, -50%) rotate(60deg);
+  }
+  
+  .r3 {
+    top: 70%;
+    left: 80%;
+    transform: translate(-50%, -50%) rotate(-60deg);
+    
+  }
+  
+  .mensure{
+    border: none;
+    /* margin: 0 auto; */
+  }
+  .mensure.distanceSensor1{
+    height: 100px;
+    width: 1px;
+    background-color: gray;
+  }
+  .mensure.distanceSensor2{
+    height: 100px;
+    width: 1px;
+    background-color: gray;
+  }
+  .mensure.distanceSensor3{
+    height: 100px;
+    width: 1px;
+    background-color: gray;
+  }
+canvas{
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: black;
+}
+
+  /* .wheel {
+    position: absolute;
+    width: 30%;
+    padding-top: 10%;
+    background-color: black;
+    top: 45%;
+  }
+  
+  .left {
+    left: 10%;
+    transform: rotate(45deg);
+  }
+  
+  .right {
+    right: 10%;
+    transform: rotate(-45deg);
+  }
+   */
