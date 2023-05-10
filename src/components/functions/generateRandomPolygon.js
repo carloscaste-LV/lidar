@@ -8,16 +8,16 @@ const centers = []; // Array para almacenar los centros de las figuras generadas
 
  function generateRandomPolygon(sectionWidth,sectionHeight) {
   const numSides = Math.floor(Math.random() * 5) + 3; // Genera un número aleatorio entre 4 y 8 para el número de lados
-  const radius = Math.floor(Math.random() * (Math.min(sectionWidth, sectionHeight) - 200) / 2);
-    const centerX = Math.floor(Math.random() * (sectionWidth - 200)) + 100;
-    const centerY = Math.floor(Math.random() * (sectionHeight - 200)) + 100;
+  const radius = Math.floor(Math.random() * (Math.min(sectionWidth, sectionHeight) -400) / 2);
+    const centerX = Math.floor(Math.random() * (sectionWidth)) + 100;
+    const centerY = Math.floor(Math.random() * (sectionHeight)) + 100;
 
   // Verifica que la nueva figura no se superponga con las figuras existentes
   for (let i = 0; i < centers.length; i++) {
     const dx = centerX - centers[i].x;
     const dy = centerY - centers[i].y;
     const distance = Math.sqrt(dx * dx + dy * dy);
-    if (distance < 100) { // Si la distancia es menor que 100, la figura se superpone, entonces se sale de la función
+    if (distance < 50) { // Si la distancia es menor que 100, la figura se superpone, entonces se sale de la función
       return;
     }
   }
@@ -50,4 +50,4 @@ const centers = []; // Array para almacenar los centros de las figuras generadas
 }
 
 
-export {generateRandomPolygon,lines}
+export {generateRandomPolygon,lines,centers}
