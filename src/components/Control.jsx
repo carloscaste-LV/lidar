@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import {beginNewDataCount} from './Prueba.jsx'
 import './css/Control.css'
 import './css/colors.css'
 import '../Button.css'
 
+let buttonNumPressed = false;
 export default function Control(props) {
   const [positionX, setPositionX] = useState(0);
   const [positionY, setPositionY] = useState(0);
@@ -33,7 +35,6 @@ export default function Control(props) {
   function spinButton(){
     setSpin(spin + 360)
     robot.style.transform=`rotate(${spin}deg)`;
-    console.log(spin)
   }
   function handleKeyDown(event) {
     // Add the pressed key to the keysPressed state
@@ -41,6 +42,7 @@ export default function Control(props) {
       ...prevKeysPressed,
       [event.key]: true
     }));
+    
   }
 
   function handleKeyUp(event) {
@@ -49,21 +51,30 @@ export default function Control(props) {
       ...prevKeysPressed,
       [event.key]: false
     }));
+    buttonNumPressed = beginNewDataCount
   }
 
   useEffect(() => {
     // Move the robot when the arrow keys are pressed
     if (keysPressed.ArrowUp) {
       handleButtonClick(0, 10);
+      //console.log('1');
+      buttonNumPressed = 1;
     }
     if (keysPressed.ArrowDown) {
       handleButtonClick(0, -10);
+      //console.log('2');
+      buttonNumPressed = 2;
     }
     if (keysPressed.ArrowLeft) {
       handleButtonClick(-10, 0);
+     // console.log('3');
+      buttonNumPressed = 3;
     }
     if (keysPressed.ArrowRight) {
       handleButtonClick(10, 0);
+      //console.log('4');
+      buttonNumPressed = 4;
     }
   }, [keysPressed]);
 
@@ -117,3 +128,5 @@ export default function Control(props) {
             </section>
     );
 }
+
+export  {buttonNumPressed}

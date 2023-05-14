@@ -3,17 +3,18 @@ import Sketch from "react-p5";
 import doLinesIntersect from "./functions/doLinesIntersect.js";
 import './css/SectionMain.css'
 import {generateRandomPolygon,lines,centers} from './functions/generateRandomPolygon.js';
+import {buttonNumPressed} from './Control.jsx'
+import DatabaseComponent from './Prueba.jsx'
+
+
+
 
 
 const degreesToRadians = (deg) => deg * Math.PI / 180;
-
-
-
-
 const getRobotRotationAngle = (robotElement) => {
   const { transform } = getComputedStyle(robotElement);
   const [a, b] = transform.match(/-?\d+\.?\d*/g).map(parseFloat);
-  return Math.atan2(b,a) * (180 / Math.PI);
+  return Math.atan2(b,a) * (180 / Math.PI); // angulo de robot
 };
 
 
@@ -23,7 +24,7 @@ const SENSOR_MEASURES = [
   { angle: 240, distance: 140 },
 ];
 
-export default function MainSection(props) {
+export function MainSection(props) {
   const robotRef = useRef(null);
 
   //Robot position
@@ -41,8 +42,7 @@ export default function MainSection(props) {
     { x: 0, y: 0 },
   ]);
 
-  //
-  
+  const [goal, setGoal] = useState();  
   //Mapping activation
   const [activeSensors, setActiveSensors] = useState([false, false, false]);
   
@@ -71,9 +71,9 @@ const handleClick = (event) => {
   const rect = section.getBoundingClientRect();
   const x = event.pageX - rect.left; // Posición X del mouse relativa a la sección "main"
   const y = event.pageY - rect.top; // Posición Y del mouse relativa a la sección "main"
-  
-  isThereSq = false; // 
-  console.log(x, y);
+  setGoal({x:x,y:y});
+  isThereSq = false; //Aseguramos que solo haya una meta a la que el robot debe llegr 
+  //console.log(x, y);
   const squareElement = document.createElement("div");
   squareElement.style.position = "absolute";
   squareElement.style.width = "50px";
@@ -85,7 +85,7 @@ const handleClick = (event) => {
   event.stopPropagation(); // Detener la propagación del evento
   
   centers.push({x:x+25,y:y+25});
-  for (let i = 0; i <20; i++) {
+  for (let i = 0; i <30; i++) {
     //Crea obstaculos para el robot dentro del rango de la seccion main
     generateRandomPolygon(sectionWidth,sectionHeight)
     }
@@ -117,8 +117,8 @@ function drawSensorLine(sensor, p5, measure, deg, robotDeg = 0, drawActive) {
   const section = document.getElementById("main");
   const positionSensorX = robotLeft + robot.offsetWidth / 2
   const positionSensorY = robotBottom + section.offsetHeight - robot.offsetHeight / 2;
-  const mDeg = degreesToRadians(deg);
-  const rDeg = degreesToRadians(robotDeg);
+  const mDeg = degreesToRadians(deg); //Angulo de sensor
+  const rDeg = degreesToRadians(robotDeg); //Angulo de robot
   const x = positionSensorX + measure * Math.cos(mDeg + rDeg) ;
   const y = positionSensorY - measure * Math.sin(mDeg + rDeg) ;
 
@@ -213,11 +213,21 @@ const draw = (p5) => {
   drawSensorLine("sensor2",p5,sensorDistances[1], 210, -robotTransform, activeSensors[1]);
   drawSensorLine("sensor3",p5,sensorDistances[2], 330, -robotTransform, activeSensors[2]);
 };
+const section = document.getElementById("main");
 
-
-
+const dataBatch = ()=>{
+  if(goal && section && buttonNumPressed)
+  {
+    console.log(buttonNumPressed);
+    return [goal.x, goal.y, robotLeft, robotBottom + section.offsetHeight, robotTransform, hrHeight[0].hrY, hrHeight[1].hrY, hrHeight[2].hrY];
+  }else{
+    return false;
+  }
+}
+  
   return (
     <section id="main" className="item item3">
+      <DatabaseComponent dataBatch={dataBatch}/>
       <Sketch setup={setup} draw={draw} />
       <div id="robot" ref={robotRef}>
         {[1, 2, 3].map((i) => (
@@ -235,3 +245,4 @@ const draw = (p5) => {
     </section>
   );
 }
+
