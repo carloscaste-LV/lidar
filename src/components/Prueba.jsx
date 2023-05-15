@@ -1,9 +1,10 @@
 import React from 'react';
 import './css/csvButton.css';
-import {buttonNumPressed} from './Control.jsx'
+import {buttonNumPressed,initCount} from './Control.jsx'
 
 let dataPack = [];
-let beginNewDataCount = true;
+let beginNewDataCount =  true;
+
 
 
 class CSVWriter extends React.Component {
@@ -17,15 +18,16 @@ class CSVWriter extends React.Component {
   
   componentDidMount() {
     setInterval(() => {
-      
+      //if(buttonNumPressed){beginNewDataCount = true}
       const batchData = this.props.dataBatch();
       const { data } = this.state;
-      if (batchData) {
+      if (batchData && buttonNumPressed) {
+        console.log(buttonNumPressed);
         const newData = [...data, batchData];
         this.setState({ data: newData });
-        console.log(beginNewDataCount);
         if (data.length === 60) {
-          beginNewDataCount = false;
+          initCount();
+          beginNewDataCount =false;
           dataPack.push(data.slice(1,data.length));
           console.log(dataPack);
           this.setState({ data: [['metaX', 'metaY', 'rPositionX', 'rPositionY', 'angulo', 'sensor1', 'sensor2', 'sensor3']] });
@@ -36,7 +38,7 @@ class CSVWriter extends React.Component {
   
   downloadCSV = () => {
     const { data } = this.state;
-    const csvContent = "data:text/csv;charset=utf-8," + data.map(row => row.join(",")).join("\n");
+    const csvContent = "data:text/csv;charset=utf-8," + dataPack.map(batch => batch.map(row => row.join(",")).join("\n")).join("\n\n");
     const encodedUri = encodeURI(csvContent);
     const link = document.createElement('a');
     link.setAttribute('href', encodedUri);
@@ -44,6 +46,7 @@ class CSVWriter extends React.Component {
     document.body.appendChild(link);
     link.click();
   }
+  
 
   render() {
     return (

@@ -5,11 +5,16 @@ import './css/colors.css'
 import '../Button.css'
 
 let buttonNumPressed = false;
+function initCount(){
+  buttonNumPressed =false;
+}
+
 export default function Control(props) {
   const [positionX, setPositionX] = useState(0);
   const [positionY, setPositionY] = useState(0);
   const [spin, setSpin] = useState(0);
   const [keysPressed, setKeysPressed] = useState({});
+  
 
   function handleButtonClick(nPositionX, nPositionY) {
     let robot = document.getElementById('robot');
@@ -36,13 +41,13 @@ export default function Control(props) {
     setSpin(spin + 360)
     robot.style.transform=`rotate(${spin}deg)`;
   }
+
   function handleKeyDown(event) {
     // Add the pressed key to the keysPressed state
     setKeysPressed(prevKeysPressed => ({
       ...prevKeysPressed,
       [event.key]: true
     }));
-    
   }
 
   function handleKeyUp(event) {
@@ -51,7 +56,6 @@ export default function Control(props) {
       ...prevKeysPressed,
       [event.key]: false
     }));
-    buttonNumPressed = beginNewDataCount
   }
 
   useEffect(() => {
@@ -77,6 +81,9 @@ export default function Control(props) {
       buttonNumPressed = 4;
     }
   }, [keysPressed]);
+
+
+  
 
   useEffect(() => {
     // Add event listeners for keydown and keyup events
@@ -129,4 +136,4 @@ export default function Control(props) {
     );
 }
 
-export  {buttonNumPressed}
+export  {buttonNumPressed,initCount}

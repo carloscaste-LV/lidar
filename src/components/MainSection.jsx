@@ -5,7 +5,7 @@ import './css/SectionMain.css'
 import {generateRandomPolygon,lines,centers} from './functions/generateRandomPolygon.js';
 import {buttonNumPressed} from './Control.jsx'
 import DatabaseComponent from './Prueba.jsx'
-
+import {beginNewDataCount} from './Prueba.jsx'
 
 
 
@@ -218,7 +218,7 @@ const section = document.getElementById("main");
 const dataBatch = ()=>{
   if(goal && section && buttonNumPressed)
   {
-    console.log(buttonNumPressed);
+    //console.log(buttonNumPressed);
     return [goal.x, goal.y, robotLeft, robotBottom + section.offsetHeight, robotTransform, hrHeight[0].hrY, hrHeight[1].hrY, hrHeight[2].hrY];
   }else{
     return false;
