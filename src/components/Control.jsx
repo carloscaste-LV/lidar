@@ -60,26 +60,27 @@ export default function Control(props) {
 
   useEffect(() => {
     // Move the robot when the arrow keys are pressed
-    if (keysPressed.ArrowUp) {
+    if (keysPressed.ArrowUp || keysPressed['w']) {
       handleButtonClick(0, 10);
-      //console.log('1');
       buttonNumPressed = 1;
     }
-    if (keysPressed.ArrowDown) {
-      handleButtonClick(0, -10);
-      //console.log('2');
+    if (keysPressed.ArrowDown || keysPressed['s']) {
+      handleButtonClick(0, -10) ;
       buttonNumPressed = 2;
     }
-    if (keysPressed.ArrowLeft) {
+    if (keysPressed.ArrowLeft || keysPressed['a']) {
       handleButtonClick(-10, 0);
-     // console.log('3');
       buttonNumPressed = 3;
     }
-    if (keysPressed.ArrowRight) {
+    if (keysPressed.ArrowRight || keysPressed['d']) {
       handleButtonClick(10, 0);
-      //console.log('4');
       buttonNumPressed = 4;
     }
+    if (keysPressed['j']) {
+      spinButton();
+      buttonNumPressed = 5;
+    }
+    
   }, [keysPressed]);
 
 

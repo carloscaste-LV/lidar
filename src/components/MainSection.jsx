@@ -148,9 +148,9 @@ function drawSensorLine(sensor, p5, measure, deg, robotDeg = 0, drawActive) {
   return { line, distance };
 });
 linesWithDistances.sort((a, b) =>  
-  sensor==="sensor1"? a.distance + b.distance: 
+  sensor==="sensor1"? a.distance - b.distance: 
   sensor==="sensor2"? -a.distance - b.distance:
-  a.distance - b.distance);
+  -a.distance - b.distance);
 
 let intersection = null;
 for (let i = 0; i < linesWithDistances.length; i++) {
